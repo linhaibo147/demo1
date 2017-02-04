@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+<style>
+/*实心上半圆：
+
+方法：把高度(height)设为宽度（width）的一半，并且只设置左上角和右上角的半径与元素的高度一致（大于也是可以的）。*/
+
+div.box{
+    height:150px;/*是width的一半*/
+    width:300px;
+    background:#9da;
+    border-radius:150px 150px 0 0;/*半径至少设置为height的值*/
+    }
+
+/*实心圆：
+方法：把宽度（width）与高度(height)值设置为一致（也就是正方形），并且四个圆角值都设置为它们值的一半。如下代码：*/
+
+div.box1{
+    height:300px;/*与width设置一致*/
+    width:300px;
+    background:#FC1;
+    border-radius:150px;/*四个圆角值都设置为宽度或高度值的一半*/
+    }	
+	
+</style>
+</head>
+<body>
+	<div class="box"></div>
+	<div class="box1"></div>
+</body>
+</html>
