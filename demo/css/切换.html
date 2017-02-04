@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<style>
+	#lb>ul>li{
+		display: none;
+		width: 150px;
+		height: 60px;
+	}
+	#lb input#n1:checked~li.li1{
+		display: block;
+		background-color: red;
+	}
+	#lb input#n2:checked~li.li2{
+		display: block;
+		background-color: green;
+	}
+	#lb input#n3:checked~li.li3{
+		display: block;
+		background-color: blue;
+	}
+	#lb input#n4:checked~li.li4{
+		display: block;
+		background-color: purple;
+	}
+</style>
+<body>
+<div id="lb">
+	<ul>
+		<input id="n1" type="radio" name="quehuan" checked="checked" />
+		<input id="n2" type="radio" name="quehuan" />
+		<input id="n3" type="radio" name="quehuan" />
+		<input id="n4" type="radio" name="quehuan" />
+		<li class="li1">项目1</li>
+		<li class="li2">项目2</li>
+		<li class="li3">项目3</li>
+		<li class="li4">项目4</li>
+	</ul>
+</div>
+
+</body>
+</html>
