@@ -1,0 +1,107 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta  charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"> 
+	<title>Document</title>
+<script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+</head>
+
+<style>
+    body,div,dd,dl,dt{
+    	margin:0px;
+    	padding:0px;
+    }
+    a{
+    	text-decoration: none;
+    }
+	div{
+		width: 50%;
+		margin:20px auto;
+		border: #eee solid 12px;
+		background-color: #fff;
+		padding:5px 5px 4px;;
+	}
+	div>dl{
+	 color: #FFF;
+    overflow: hidden;
+    background: #7CF;
+    margin-bottom: 0.03rem;
+	}
+
+	div>dl>dt{
+	cursor: pointer;
+    font-size: 20px;
+    background: #9C0;
+    line-height: 0.3rem;
+   font-weight: 700;
+	}
+	div>dl>dd{
+		display: none;	
+	background: #7CF;
+    line-height: 0.25rem;
+    font: 12px/25px Tahoma;
+	}
+</style>
+<body>
+      <div>
+      	<dl>
+      		<dt>css</dt>
+      		<dd><a href="demo/css/切换.html">css3中的实现的切换</a></dd>
+      		<dd><a href="demo/css/css3的圆角.html">css3的圆角</a></dd>
+      	</dl>
+      	<dl>
+      		<dt>javascript</dt>
+      		<dd><a href="demo/css/javascript/table切换小demo.html">table切换小demo<a></a></dd>
+      		<dd><a href="demo/css/javascript/表单二级联动.html">表单二级联动</a></dd>
+      		<dd><a href="demo/css/javascript/九九乘法表.html">九九乘法表</a></dd>
+      		<dd><a href="demo/css/javascript/侧边栏广告.html">侧边栏广告</a></dd>
+      		<dd><a href="demo/css/javascript/四个方向的九九乘法表.html">四个方向的九九乘法表</a></dd>
+      		<dd><a href="demo/css/javascript/回到顶部.html">回到顶部</a></dd>
+      		<dd><a href="demo/css/javascript/球弹动.html">球弹动</a></dd>
+      		<dd><a href="demo/css/javascript/选择框多选和反选.html">选择框多选和反选</a></dd>
+      	</dl>
+        <dl>
+          <dt>Canvas</dt>
+           <dd><a href="demo/canvas/黑板.html">黑板</a></dd>
+        </dl>
+      	
+      </div>	
+</body>
+<script>
+/*用js响应屏幕中的px*/
+	(function (doc, win) {
+        var docEl = doc.documentElement,
+            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+            recalc = function () {
+                var clientWidth = docEl.clientWidth;
+                if (!clientWidth) return;
+                if(clientWidth>=640){
+                    docEl.style.fontSize = '100px';
+                }else{
+                    docEl.style.fontSize = 100 * (clientWidth / 640) + 'px';
+                }
+            };
+
+        if (!doc.addEventListener) return;
+        win.addEventListener(resizeEvt, recalc, false);
+        doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);
+
+    (function(){
+    	var flag = false;
+    	$('dl').bind('click',function(){
+    		if(flag){
+    			$(this).find('dd').slideUp();
+    			flag=false;
+    		}else{
+    			$(this).find('dd').slideDown();
+    			flag=true;
+    		}	
+    	})
+    	
+    })()
+
+</script>
+</html>
+
