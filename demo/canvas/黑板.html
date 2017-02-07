@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>canvas绘制黑板</title>
+	<style type="text/css">
+		*{
+			padding:0px;
+			margin:0px;
+		}
+		body{
+			background:#ccc;
+			text-align: center;
+		}
+		canvas{
+			margin-top:50px;
+			background:#fff;
+			box-shadow: 4px 4px 6px #666;
+		}
+		#anniu{
+			width:80px;
+			height:515px;
+			box-shadow: 2px 4px 4px #333;
+			border:5px solid #333;
+			position: absolute;
+			top:50px;
+			left:50%;
+			margin-left:-500px;
+			text-align: center;
+		}
+		#anniu button{
+			width:90%;
+			height:50px;
+			margin-top:10px;
+		}
+		#anniu input{
+			margin-top:5px;
+			width:35px;
+			height:35px;
+		}
+
+		#biank{
+			background:#666;
+		}
+		#tianc{
+			background:#666;
+		}
+
+	</style>
+</head>
+<body>
+	<canvas id="canvas" width="800" height="600">
+		不支持此功能。
+	</canvas>
+	<div id="anniu">
+		<button onclick="num = 0">线</button>
+		<button onclick="num = 1">直线</button>
+		<button onclick="num = 2">圆形</button>
+		<button onclick="num = 3">矩形</button>
+		<button id="biank" onclick="biankuan()">边框</button>
+		<input type="color" id="colors" name="color">
+		<button id="tianc" onclick="tianchong()">填充</button>
+		<input type="color" id="colors2" name="color">
+		<button onclick="clearbox()">清空黑板</button>
+	</div>
+
+	
+	<script type="text/javascript">
+
+		//获取canvas对象并绘制2d环境
+		var canvas = document.getElementById('canvas');
+
+		var cxt = canvas.getContext('2d');
+
+		//设置一些全局的样式
+		var color = '#fff';	//默认的颜色为白色
+		var color2 = '#fc1';
+		
+		var ccolor = document.getElementById('colors');		//获取颜色的对象
+		ccolor.onchange = function() {
+			color = this.value;
+		}
+
+		var ccolor2 = document.getElementById('colors2');		//获取颜色的对象
+		ccolor2.onchange = function() {
+			color2 = this.value;
+		}
+
+		//获取边框和填充
+		var biank = document.getElementById('biank');
+		var tianc = document.getElementById('tianc');
+
+		var lineWidth = 4;
+
+		var sx = 0;	//鼠标的初始化位置
+		var sy = 0;	//鼠标的初始化位置
+
+		var flag = false;	//就是设置鼠标是否处于按下的状态
+		
+		var num = 0; 		//设置一个值来装它的状态值
+
+		//给画布套上一块黑布
+		cxt.clearRect(0,0,canvas.width,canvas.height);
+		cxt.fillStyle = 'rgba(0,0,0,.7)';
+		cxt.fillRect(0,0,canvas.width,canvas.height);
+
+		var imgData = cxt.getImageData(0,0,canvas.width,canvas.height);
+
+		
+
+		//添加事件让它能在黑板上画东西
+		canvas.addEventListener('mousedown',mdown,false);
+		canvas.addEventListener('mousemove',mmove,false);
+		canvas.addEventListener('mouseup',mup,false);
+
+		//鼠标点击下去时的事件
+		function mdown(e) {
+
+			//设置初始化位置
+			flag = true;
+			sx = e.offsetX;
+			sy = e.offsetY;
+
+			// console.log(sx+' '+sy);
+			// alert(t);
+
+		}
+
+		function mmove(e) {
+
+			//鼠标属于按下状态才执行
+			if(flag != true){
+				return;	//如果不是按下状态的话就直接退出了这个循环了
+			}
+			switch(num) {
+				case 0:
+					xian(e);
+				break;
+				case 1:
+					zhixian(e);
+				break;
+
+				case 2:
+					yuan(e);
+				break;
+
+				case 3:
+					juxing(e);
+				break;
+
+			}
+
+			
+
+		}
+
+		function mup(e) {
+
+			//鼠标松开的时候让标志数复位
+			flag = false;
+
+			imgData = cxt.getImageData(0,0,canvas.width,canvas.height);
+
+			// switch(num) {
+			// 	case 1:
+			// 		zhixian(e);
+			// 	break;
+
+			// 	case 2:
+			// 		yuan(e);
+			// 	break;
+
+			// 	case 3:
+			// 		juxing(e);
+			// 	break;
+
+			// }
+
+		}
+
+
+		function xian(e) {
+			var nx = e.offsetX;
+			var ny = e.offsetY;	
+
+			cxt.beginPath();
+			cxt.strokeStyle = color;
+			// biankuan();
+			cxt.lineWidth = lineWidth;
+			cxt.lineCap = 'round';
+			cxt.moveTo(sx,sy);
+			cxt.lineTo(nx,ny);
+			cxt.stroke();
+
+			//画完之后要把x和y 的值付给他们
+			sx = nx;
+			sy = ny;
+		}
+		
+
+		function zhixian(e) {
+
+			cxt.putImageData(imgData,0,0);
+
+			var nx = e.offsetX;
+			var ny = e.offsetY;
+			
+			cxt.beginPath();
+			cxt.strokeStyle = color;
+			// biankuan();
+			cxt.lineWidth = lineWidth;
+			cxt.moveTo(sx,sy);
+			cxt.lineTo(nx,ny);
+			cxt.stroke();
+
+		}
+
+		function yuan(e) {
+
+			// cxt.save();
+			
+			cxt.putImageData(imgData,0,0);		//通过 getImageData() 复制画布上指定矩形的像素数据，然后通过 putImageData() 将图像数据放回画布
+
+			cxt.beginPath();
+			var nx = e.offsetX;
+			var ny = e.offsetY;
+			cxt.lineWidth = lineWidth;
+			cxt.strokeStyle = color;
+			cxt.fillStyle = color2;
+
+			cxt.arc(sx+((nx-sx)/2),sy+((ny-sy)/2),(ny-sy)/2,0,Math.PI*2,false);
+			if(bkbool){
+				cxt.stroke();
+			}
+			if(tcbool){
+				cxt.fill();
+			}
+
+		}
+
+		function juxing(e) {
+
+			// cxt.save();
+			// cxt.clearRect(0,0,canvas.width,canvas.height);
+			cxt.putImageData(imgData,0,0);
+			// cxt.clearRect(0,0,canvas.width,canvas.height);
+			// cxt.fillStyle = 'rgb(0,0,0,.7)';
+			// cxt.fillRect(0,0,canvas.width,canvas.height);
+
+			cxt.beginPath();
+			var nx = e.offsetX;
+			var ny = e.offsetY;
+			cxt.lineWidth = lineWidth;
+			// biankuan();
+			cxt.strokeStyle = color;
+			cxt.fillStyle = color2;
+			cxt.rect(sx,sy,nx-sx,ny-sy);
+			if(bkbool){
+				cxt.stroke();
+			}
+			// cxt.stroke();
+			if(tcbool){
+				cxt.fill();
+			}
+			
+			// cxt.restore();
+			// imgData = cxt.getImageData(0,0,canvas.width,canvas.height);
+
+		}
+
+		var bkbool = true;
+		function biankuan() {
+
+			if(bkbool == true){
+				// cxt.strokeStyle = color;
+				bkbool = false;
+				// alert('111');
+				biank.style.background = '#F2F2F2';
+			}else{
+				cxt.strokeStyle = null;
+				bkbool = true;
+				// alert('222');
+				biank.style.background = '#666';
+			}
+
+		}
+
+		var tcbool = true;
+		function tianchong() {
+
+			if(tcbool == true){
+				cxt.fillStyle = color2;
+				tcbool = false;
+				// alert('111');
+				tianc.style.background = '#F2F2F2';
+			}else{
+				cxt.fillStyle = null;
+				tcbool = true;
+				// alert('222');
+				tianc.style.background = '#666';
+			}
+
+		}
+
+
+		//清除黑板效果
+		function clearbox() {
+			// cxt.clearRect(0,0,canvas.width,canvas.height);
+			// color2 = 'rgba(0,0,0,.7)'; 
+			// cxt.fillStyle = 'rgba(0,0,0,.7)';
+			// console.log(cxt.fillStyle);
+			// cxt.fillRect(0,0,canvas.width,canvas.height);
+			// cxt.removeImageData(0,0,canvas.width,canvas.height);
+			// repaint();
+
+			//因为上面每次移动都会重新加载到原来的图像信息，所以使用原来灰度图的知识，把每个点的图像信息进行重新的赋值，并返回图像信息。
+
+			var imgDdata = imgData.data;
+			// alert(imgDdata);
+			for(var i = 0;i<imgDdata.length;i+=4){
+
+				 imgDdata[i] = 0;
+				 imgDdata[i+1] = 0;
+				 imgDdata[i+2] = 0;
+				 imgDdata[i+3] = 179;
+
+			}
+			cxt.putImageData(imgData,0,0);
+		}
+
+
+
+
+
+
+
+
+
+		// ball1 = {
+		// 		x:1,
+		// 		y:2
+		// 	}
+		// 	ball2 = {
+		// 		x:2,
+		// 		y:3
+		// 	}
+		// 	var Ball = function(x,y){
+		// 		this.x = x;
+		// 		this.y = y;
+		// 		this.vx = 0.1;
+		// 		this.vy = 0.2;
+		// 	}
+		// 	Ball.draw = function(ctx){
+		// 		ctx.arc()
+		// 		ctx.fill();
+		// 	}
+		// 	Ball.update = function(){
+		// 		this.x += this.vx;
+		// 		this.y += this.vy;
+		// 	}
+		// 	new ball1 = new Ball(1,2);
+		// 	new ball2 = new Ball(1,2);
+		// 	new ball3 = new Ball(1,2);
+		// 	new ball4 = new Ball(1,2);
+		// 	balls = [];
+		// 	[]
+		// 	{}
+		// 	ball=?
+		// 	balls.push(ball1);
+		// 	balls.push(ball2);
+		// 	balls.push(ball3);
+
+		
+
+	</script>
+
+
+</body>
+</html>
