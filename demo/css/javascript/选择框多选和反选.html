@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+<body>
+	<form action="#" method="post" id="chec">
+			今晚侍寝：<br />
+			<input type="checkbox" name="select1" id="" value="" class="input" />波波野结衣<br />
+			<input type="checkbox" name="select1" id="" value="" class="input" />仓井灰<br />
+			<input type="checkbox" name="select1" id="" value="" class="input" />小泽玛丽鑫<br />
+			<input type="checkbox" name="select1" id="" value=""  class="input" />泷泽罗芬<br />
+			<input type="checkbox" name="select1" id="" value="" class="input" />天海玲<br />
+			<input type="checkbox" name="select1" id="" value="" class="input" />吉泽明画<br />
+			<input type="checkbox" name="select1" id="" value="" class="input" />松岛彬<br />
+		</form>
+		
+		<input type="radio" name="select" id="" value="" onclick = 'fun(this)' /><label>全选/全不选</label>
+		<input type="radio" name="select" id="" value="" onclick = 'fun1(this)' />反选
+
+</body>
+<script>
+	function fun(obj){
+		
+		var chec = document.getElementsByClassName('input');
+		for( var i =0;i<chec.length; i++ ){
+			if(obj.checked){
+				chec[i].checked='checked';
+
+			}else{
+				chec[i].checked=obj.checked;
+			}
+		}
+	}
+	function fun1( obj ){
+
+	var chec = document.getElementsByClassName('input');
+		for( var i=0; i<chec.length; i++ ){
+
+			
+
+			if(chec[i].checked){
+				chec[i].checked='';
+			}
+			else{
+				chec[i].checked=obj.checked;
+			}
+
+		}
+	}
+</script>
+</html>

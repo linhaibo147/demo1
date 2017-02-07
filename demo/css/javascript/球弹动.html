@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>球弹动</title>
+	<script type="text/javascript">
+		//
+		// var time = null;
+		function fun(){
+			var box = document.getElementById('box');
+			var x = 0;
+			var y = 0;
+			var moveX = 10;
+			var moveY = 10;
+			setInterval(function(){
+				x += moveX;
+				y += moveY;
+				box.style.left = x + 'px';
+				box.style.top = y +'px';
+				if(x > window.innerWidth-160||x<10){
+					moveX = -1*moveX;
+				}
+				if(y > window.innerHeight-160||y<10){
+					moveY = -1*moveY;
+				}
+			},10)
+		}
+	</script>
+	<style type="text/css">
+		*{
+			margin:0px;
+			padding:0px;
+		}
+		#box{
+			width:150px;
+			height: 150px;
+			border-radius:50%;
+			background-color: #f00;
+			position: absolute;
+		}
+	</style>
+</head>
+<body>
+	<div id="box" onclick="fun()"></div>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+<body>
+	   <select name ="" id="g" onchange="fun(this)">
+	   <option value="0">中国</option>
+	   <option value="1">日本</option>
+	    <option value="2">韩国</option>
+	     <option value="3">泰国</option>
+	      <option value="4">GZH504</option>
+	      </select>
+	      <select name="" id="nv">
+			<option >---请选择---</option>
+
+		</select>
+</body>
+<script>
+	var arr = new Array();
+	arr[0] = ['刘亦菲','关晓彤','杨幂','陈乔恩'];
+			arr[1] = ['波多野结衣','天海翼','苍井空','泷泽萝拉','吉泽明步'];
+			arr[2] = ['金泫雅','宋慧桥','宋智孝','权志龙'];
+			arr[3] = ['宝拉','宝儿'];
+			arr[4] = ['波波野结衣','田海玲','松岛彬'];
+
+    function fun( obj ){
+    	var nv = document.getElementById( 'nv' );
+    	var data = arr[obj.value];
+    
+    //清除之前的数据
+    	nv.length = 1;
+    	var list = new Array();
+    	
+    	for( var i =0; i<data.length; i++ ){
+    		list[i] = document.createElement('option');
+    		list[i].text = data[i];
+    		nv.add(list[i]);
+    	}
+    }
+</script>
+</html>

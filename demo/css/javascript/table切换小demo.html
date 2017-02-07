@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style>
+		#tab span{
+			display: block;
+			padding: 5px 15px;
+			background: lavender;
+			margin: 0 0;
+			border: 1px solid #ccc;
+			border-bottom: none;
+			float: left;
+
+		}
+		.content{
+			height:200px;
+			overflow:hidden;
+		}
+		.content img{
+			width: 500px;
+
+		}
+		.clear{
+			clear: both;
+		}
+	</style>
+	<script>
+		window.onload = function(){
+			var allSpan = document.getElementsByTagName('span');
+			var allDiv = document.getElementsByClassName('content');
+
+			for(var i = 0;i<allDiv.length;i++){
+				allDiv[i].style.display = 'none';
+				allDiv[i].style.height = '200'+'px';
+
+			}
+			for(var i = 0;i<allSpan.length;i++){
+				allSpan[i].style.background = 'lavender';
+			}
+
+
+			allDiv[0].style.display = 'block';
+			allSpan[0].style.background = 'lightblue';
+
+			for(var i = 0;i<allSpan.length;i++){
+				allSpan[i].index = i;
+				allSpan[i].onclick = function(){
+				
+					var allDiv = document.getElementsByClassName('content');
+					for(var i = 0;i<allDiv.length;i++){
+						allDiv[i].style.display = 'none';
+
+					}
+					for(var i = 0;i<allSpan.length;i++){
+						allSpan[i].style.background = 'lavender';
+					}
+                    
+					var pos = this.index;
+					//接受当前点击对象的地址
+					allDiv[pos].style.display = 'block';
+
+					this.style.background = 'lightblue';
+
+					
+					
+				}
+				
+			}
+
+		}
+	</script>
+</head>
+<body>
+	<div id="tab">
+		<span>第一任老婆</span>
+		<span>第二任老婆</span>
+		<span>第三任老婆</span>
+		<span>第四任老婆</span>
+		<span>第五任老婆</span>
+		<span>第六任老婆</span>
+		<div class="clear"></div>
+	</div>
+
+	<div class="content"><img src="image/1.jpg" alt=""></div>
+	<div class="content"><img src="image/2.jpg" alt=""></div>
+	<div class="content"><img src="image/3.jpg" alt=""></div>
+	<div class="content"><img src="image/4.jpg" alt=""></div>
+	<div class="content"><img src="image/1.jpg" alt=""></div>
+	<div class="content"><img src="image/2.jpg" alt=""></div>
+</body>
+</html>
