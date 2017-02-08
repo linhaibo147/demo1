@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<style>
+			#mycanvas{
+				background: #EACCA6;
+				
+				
+			}
+		</style>
+	</head>
+	<body>
+		<canvas id="mycanvas" width="660" height="720">
+			
+		</canvas>
+		<script>
+			var mycanvas = document.getElementById('mycanvas');
+			var cxt = mycanvas.getContext('2d');
+			
+			//绘制棋盘
+			for(var i = 0;i<8;i++){				
+				for(var j = 0;j<9;j++){
+				
+				cxt.beginPath();				
+				cxt.rect(90+(i*60),90+(j*60),60,60);				
+				
+				cxt.fillStyle='#F0D7AE';
+				cxt.fill();				
+				cxt.stroke();				
+				}
+				
+			cxt.beginPath();
+			cxt.fillStyle='#F0D7AE';
+			cxt.fillRect(90,330,480,60);
+			cxt.stroke();
+			
+			
+			}
+			//楚汉河界
+			
+			//封装象棋			
+			function chess(x,y,text,color){				
+				//外圆
+				cxt.beginPath();
+				cxt.arc(x,y,25,Math.PI*2,false);				
+			    cxt.fillStyle="#956444";
+				cxt.fill();							
+				cxt.stroke();
+				
+				//内圆
+				cxt.beginPath();
+				cxt.arc(x,y,20,Math.PI*2,false);
+				cxt.fillStyle="#EBC082";
+				cxt.fill();	
+				cxt.stroke();								
+				//文字
+				cxt.beginPath();
+				cxt.fillStyle=color;
+				cxt.fill();	
+				cxt.font="25px 微软雅黑";
+				
+				cxt.textAlign="center";
+				cxt.fillText(text,x,y+8)				
+				cxt.stroke();	
+				
+		}
+	    
+		var arr1 =['車','馬','相','士','帅','士','相','馬','車'];	
+		for(var i = 0;i<arr1.length;i++){			
+			chess(90+(i*60),90,arr1[i],'#000')
+		}
+		
+		var arr2 =['車','馬','象','士','将','士','象','馬','車'];
+	   for(var i = 0;i<arr2.length;i++){
+	   	  chess(90+(i*60),630,arr2[i],'#f00')
+	   }
+       
+       //卒
+       var arr3 = ['卒','卒','卒','卒','卒']
+       for(var i = 0;i<arr3.length;i++){
+       	chess(90+(i*60)+i*60,270,arr3[i],'#000')
+       	chess(90+(i*60)+i*60,450,arr3[i],'#f00')
+       }
+       var arr4 = ['炮','炮']
+       for(var i = 0;i<arr4.length;i++){
+       		chess(150+(i*360),510,arr4[i],'#f00')
+       		chess(150+(i*360),210,arr4[i],'#000')
+       }
+       
+		</script>
+	</body>
+</html>
