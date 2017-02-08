@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<style>
+			div {
+				text-align: center;
+			}
+			
+			#mycanvas {
+				border: 10px solid red;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div><canvas id="mycanvas" width="600" height="400">
+			浏览器不支持改属性
+		</canvas></div>
+
+		<div>输入文字 :<input type="text" /><button id="btn1">输出</button><br/>改变字体颜色:<input type="color" id="colors2" /></div>
+
+	</body>
+	<script src="requestNextAnimationFrame.js"></script>
+	<script src="sprite.js"></script>
+	<script>
+		//canvas的初始化
+		var mycanvas = document.getElementById('mycanvas');
+		var cxt = mycanvas.getContext('2d');
+
+		//定义颜色
+		var color2 = null;
+        
+        //标志位
+		var flage = true;
+
+		//定义弹幕的数组
+		var bulletSpriteArr = [];
+
+		//获取页面的按扭和输入框
+		var input = document.getElementsByTagName('input');
+		var btn1 = document.getElementById('btn1');
+        
+        
+        //改变颜色按扭
+		var inp2 = document.getElementById('colors2');
+		inp2.onchange = function() {
+			flage = false;
+			color2 = this.value;
+
+		}
+        
+		//输入按扭
+		btn1.onclick = function() {
+            
+            
+            //判断是否要取随机数
+			if(flage) {
+				//随机函数
+				function randomNum(min, max) {
+					var result = parseInt(Math.random() * (max - min + 1)) + min; //0~1
+					return result;
+
+				}
+                
+                //运用随机函数取随机颜色
+				function randomColor() {
+					var str = '0123456789abcdef';
+					var result = '#';
+					for(var i = 0; i < 6; i++) {
+						result += str[randomNum(0, str.length - 1)];
+					}
+					return result;
+				}
+				color2 = randomColor();
+
+			}
+
+			var color3 = color2;
+			
+			//获取输入框的值
+			var text1 = input[0].value;
+            input[0].value = " ";
+            
+            //通过工厂模式添加对象
+			var bullet = new createbarrage(text1, color3);
+			bulletSpriteArr.push(bullet);
+            console.log(bullet.vx);
+			//动画的执行
+			function animate(time) {
+
+				//1.清空画布(初始化)
+				cxt.clearRect(0, 0, mycanvas.width, mycanvas.height);
+                
+                
+                //2.遍历每个弹幕
+				for(var i = 0; i < bulletSpriteArr.length; i++) {
+					bulletSpriteArr[i].update(cxt, time);
+					bulletSpriteArr[i].paint(cxt);
+                    
+                    //回收弹幕
+					if(bulletSpriteArr[i].left >= 600) {
+						bulletSpriteArr.splice(i, 1);
+					}
+
+				}
+
+				window.requestNextAnimationFrame(animate);
+			}
+
+			window.requestNextAnimationFrame(animate);
+		}
+
+		
+
+		//弹幕绘制器
+		function barrage() {
+
+		}
+		barrage.prototype = {
+
+			//写入弹幕方法
+			paint: function(sprite, context) {
+
+				context.beginPath();
+				context.fillStyle = sprite.color2;
+				
+				context.fillText(sprite.text, sprite.left, sprite.rdY);
+				context.font="30px Arial"
+				context.stroke();
+			},
+
+		}
+
+		//弹幕的行为
+		var barrageright = function() {
+			//用于记录时间的属性
+			this.lastTime = 0,
+			
+			
+				//弹幕的间隔时间	   	                  
+				this.intervalTime = 10;
+		}
+		barrageright.prototype = {
+
+			execute: function(sprite, context, time) {
+				if(time - this.lastTime >= this.intervalTime) {
+					sprite.left = sprite.left + sprite.vx * (this.intervalTime / 1000);
+
+					sprite.lastTime = time;
+				}
+			}
+
+		}
+
+		//实例化弹幕绘制器
+		var m1 = new barrage();
+
+		//弹幕的工厂模式
+		function createbarrage(text, color3) {
+			var fei = new sprite('feii', m1, [new barrageright()]);
+           
+           
+			fei.left = 0;
+			fei.text = text;    
+			fei.rdY = fei.random();
+			fei.color2 = color3;
+			fei.vx = 30;
+
+			return fei;
+
+		}
+	</script>
+
+</html>
